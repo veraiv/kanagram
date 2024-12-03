@@ -33,10 +33,6 @@ The application supports two configurable non persistent storage options, provid
     - HAZELCAST_CLUSTER_NAME=<hazelcast-cluster-name>
 
   **Try Hazelcast with Docker Compose**
-
-    Prerequisites:
-    -Docker: Ensure Docker and Docker Compose are installed on your system.
-    -Environment configuration: Create a .env file in the project root with the necessary configuration.
     ```bash
      docker compose -f docker-compose-hazelcast.yaml up
     ```   
@@ -48,10 +44,6 @@ The application supports two configurable non persistent storage options, provid
     - REDIS_URL=<ip>:<port>
 
   **Try Redis with Docker Compose**
-
-    Prerequisites:
-    - Docker: Ensure Docker and Docker Compose are installed on your system.
-    - Environment configuration: Create a .env file in the project root with the necessary configuration.
     ```bash
      docker compose -f docker-compose-redis.yaml up
     ```  
@@ -91,10 +83,9 @@ docker run -it -u $(id -u ${USER}):$(id -g ${USER}) -p 8080:8080 -v  $(pwd):/app
 The application includes a Swagger UI to provide an interactive interface for exploring and testing the available endpoints. 
 This makes it easier to understand the API and test its functionality without requiring additional tools.
 
-Accessing Swagger UI
-Once the application is running, the Swagger UI can be accessed at:
 
-URL: [http://localhost:8080/]
+Once the application is running, the Swagger UI can be accessed at:  [http://localhost:8080]
+
 This provides a user-friendly interface to view:
 
 - API Endpoints,Request/Response schemas,Example payloads,Real-time testing options for endpoints
@@ -102,16 +93,9 @@ This provides a user-friendly interface to view:
     Navigate to the Swagger UI in your browser.
     Select an endpoint to expand its details.
     Enter the required parameters or request body.
-    Click "Try it out" to execute the request directly from the interface.
+    Click **"Try it out"** to execute the request directly from the interface.
     View the response, including status codes, headers, and body.
-
-Notes
-Swagger is automatically enabled when the application starts. No additional setup is required.
-
-
-## Whom should I contact
-Vera Voynovska
-
+ 
 ## Acknowledgments
 
 ### openapi-generator-cli
