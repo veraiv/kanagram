@@ -1,0 +1,10 @@
+
+services:
+ 
+  spring-service:
+    hostname: spring-service
+    build: .
+    ports:
+      - "8080:8080"
+    environment:   
+      - STORAGE_TYPE=map

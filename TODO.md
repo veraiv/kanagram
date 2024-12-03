@@ -1,11 +1,11 @@
 ### Todo
 - [] SQL Query with from and limity and Pagination, for large seraches
-- [] Remove unused storage functions
 - [] Tests
 - [] targets build
 
 ### In Progress
- 
+ - [x] Redis
+  
 ### Done
 - [x] Haselcast 
 - [x] Simple in memory concurent cache

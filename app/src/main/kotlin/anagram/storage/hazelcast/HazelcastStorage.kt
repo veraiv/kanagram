@@ -8,15 +8,15 @@ import com.hazelcast.sql.SqlRow;
 import com.hazelcast.query.Predicates
 import com.hazelcast.sql.SqlService
 import org.springframework.beans.factory.annotation.Value
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import com.hazelcast.cluster.ClusterState
 import java.util.concurrent.TimeUnit
 
 import anagram.storage.Storage
-import anagram.storage.GetKeysForValuesFilterCriteria
+import anagram.storage.GetFilterCriteria
 
-class HazelcastStorage(private val hazelcastInstance: HazelcastInstance): Storage {
+
+class HazelcastStorage(private val hazelcastInstance: HazelcastInstance,  private val maxRetries: Int = 10): Storage {
 
       private val log = LoggerFactory.getLogger(HazelcastStorage::class.java)
 
@@ -24,7 +24,7 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance): Storag
  
  
       init {
-          log.info("HazelcastStorage initialize")
+         log.info("HazelcastStorage initialize")
            
          waitForHazelcast()
 
@@ -36,45 +36,24 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance): Storag
                   'valueFormat' = 'varchar'
                )
          """)
-
+ 
       }
 
-      override fun add(key: String, addValue: String) {
-         log.info("Hazelcast add key{} : val{}", key, addValue)
-         keyValueMap[key] = addValue
-      }
-   
-      override fun addMap( map: Map<String, String>)   {
-         log.info("Hazelcast add map {}", map)
-         keyValueMap.putAll(map)
+
+      override fun addMany(key: String,  vararg values: String){
+         for (next in values){
+             keyValueMap.putIfAbsent(next, key)
+         }
       }
   
-      override fun getKeysForValue(addValue: kotlin.String): List<String> {
+      override fun getWithFilter(criteria: GetFilterCriteria): List<String>  {
+         log.info("LocalInMemoryStorage getWithFilter {}}", criteria) 
          val list = mutableListOf<String>()
          val sqlQuery = "SELECT __key, this FROM distributedmap WHERE this = ?"
-         hazelcastInstance.sql.execute(sqlQuery, addValue).use { result ->
-            for (row in result) {
-               val key = row.getObject<String>("__key")
-               list.add(key)                
-            }
-         }
-         log.info("Hazelcast getKeysForValue {}", list)
-         return list
-      }
-
-      fun queryKeysByValue(addValue: String): List<String> {
-         return keyValueMap
-             .entrySet(Predicates.equal("__value", addValue))   
-             .map { it.key }   
-      }
- 
-      override fun getKeysForValueWithFilter(criteria: GetKeysForValuesFilterCriteria): List<String> {
-         val list = mutableListOf<String>()
-         val sqlQuery = "SELECT __key, this FROM distributedmap WHERE this = ?"
-         hazelcastInstance.sql.execute(sqlQuery, criteria.targetValue ).use { result ->
+         hazelcastInstance.sql.execute(sqlQuery, criteria.target ).use { result ->
             for (row in result) {
                row.getObject<String>("__key")?.let { key ->
-                  if (key != criteria.excludeKey) {
+                  if (key != criteria.exclude) {
                      list.add(key)
                   }
                }
@@ -86,15 +65,14 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance): Storag
          return list
       }
  
-      // Helper function to wait for Hazelcast readiness
+
       private fun waitForHazelcast( ) {
          val cluster = hazelcastInstance.cluster
-
-         val maxRetries: Int = System.getenv("WAIT_HASELCAST_RETRIES")?.toIntOrNull() ?: 10 
+ 
        
          var retries = 0
          while (retries < maxRetries) {
-            if (cluster.members.isNotEmpty()) { // Check if there are active members
+            if (cluster.members.isNotEmpty()) { 
                 println("Hazelcast cluster is ready.")
                 return
             }

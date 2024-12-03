@@ -3,7 +3,7 @@ package anagram.storage.map
 import java.util.concurrent.ConcurrentHashMap
 
 import anagram.storage.Storage
-import anagram.storage.GetKeysForValuesFilterCriteria
+import anagram.storage.GetFilterCriteria
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,31 +13,20 @@ class  LocalInMemoryStorage: Storage {
     private val log = LoggerFactory.getLogger(LocalInMemoryStorage::class.java)
 
     private val keyValueMap = ConcurrentHashMap<String, String>()
- 
-    override fun add(key: String, addValue: String) {
-       log.info("LocalInMemoryStorage add key:{}, value: {}}", key, addValue)
-       keyValueMap.putIfAbsent(key, addValue)
-    }
 
-    override fun addMap( map: Map<String, String>)   {
-        log.info("LocalInMemoryStorage addMap {}}", map)
-        map.forEach { (key, addValue) ->
-            keyValueMap.putIfAbsent(key, addValue)
+    override fun addMany(key: String,  vararg values: String){
+        for (next in values){
+            keyValueMap.putIfAbsent(next, key)
         }
-    }
+     }
  
-    override fun getKeysForValue(addValue: kotlin.String): List<String> {
-        log.info("LocalInMemoryStorage getKeysForValue {}}", addValue) 
-        return keyValueMap.filterValues { it == addValue }.keys.toList()
-    }
-
-    override fun getKeysForValueWithFilter(criteria: GetKeysForValuesFilterCriteria): List<String> {
-        log.info("LocalInMemoryStorage getKeysForValueWithFilter {}}", criteria) 
+    override fun getWithFilter(criteria: GetFilterCriteria): List<String>  {
+        log.info("LocalInMemoryStorage getWithFilter {}}", criteria) 
         val filteredMap = keyValueMap.filter { (key, addValue) ->
-            key != criteria.excludeKey && addValue == criteria.targetValue 
+            key != criteria.exclude && addValue == criteria.target
         }
         return filteredMap.keys.toList()
-
     }
+
 
 }
