@@ -4,6 +4,7 @@
  
 ## About The Project
 This is a simple kotlin-spring application that verifies and retrieves temporary stored anagrams.
+The purpose of the application is to look into kotlin with springboot and experiment with different storage types.
  
 ## Features
 
@@ -18,22 +19,57 @@ The application supports two configurable non persistent storage options, provid
 1. Built In ConcurrentHashMap (default)
    Used for lightweight deployments 
 
+  **Try ConcurrentHashMap with Docker Compose
+    ```bash
+     docker compose -f docker-compose-map.yaml up
+    ```  
+
 2. Hazelcast 
-   A very expensive in memmory storage for scalability. 
+   An in memmory storage for scalability. 
    See [https://hazelcast.com] for details.
    Set the following environment variables in the .env file or your runtime configuration:
 
     - STORAGE_TYPE=hazelcast
     - HAZELCAST_NODE_IPS=<ip:<port>, <ip>:<port>
     - HAZELCAST_CLUSTER_NAME=<hazelcast-cluster-name>
+
+
+  **Try Hazelcast with Docker Compose
+
+    Prerequisites
+    Docker: Ensure Docker and Docker Compose are installed on your system.
+    Environment configuration: Create a .env file in the project root with the necessary configuration.
+    ```bash
+     docker compose -f docker-compose-hazelcast.yaml up
+    ```   
+
+3. Redis
+   Set the following environment variables in the .env file or your runtime configuration:
+
+    - STORAGE_TYPE=redis
+    - REDIS_URL=<ip>:<port>
+
+  **Try Redis with Docker Compose
+
+    Prerequisites
+    Docker: Ensure Docker and Docker Compose are installed on your system.
+    Environment configuration: Create a .env file in the project root with the necessary configuration.
+    ```bash
+     docker compose -f docker-compose-redis.yaml up
+    ```  
  
 ### Configuration
 The application can be configured using environment variables. Key variables include:
-| Variable                  | Description                         | Default     |
-|---------------------------|------------------------------------|--------------|
-| `STORAGE_TYPE`            | Database connection string         | `map`        |
-| `HAZELCAST_NODE_IPS`      | list of nodes                      |  none        |
-| `HAZELCAST_CLUSTER_NAME`  | Dname of the DB cluster            |  none        |
+
+| Variable                  | Description                   |Values                       | Default          |
+|---------------------------|------------------------------------|------------------------|------------------|
+| `STORAGE_TYPE`            | Database connection string    |`map`, `haselcast`, `map`    | `map`            |
+| `HAZELCAST_NODE_IPS`      | list of nodes                 |`<ip1>:<port1>,<ip2>:<port2>`| `none`           |
+| `HAZELCAST_CLUSTER_NAME`  | Name of the DB cluster        |                             | `default-cluster`|
+| `REDIS_URL`               | redis url                     |      `<ip=>:<port>`         | `localhost:6379` |
+
+
+
 
 ### Deployment 
 
@@ -48,20 +84,12 @@ The application can be configured using environment variables. Key variables inc
     docker run -p 8080:8080 app-prod
     ```
 
-###  To test with two hazelcast instances
-  - Run with Docker Compose
-
-    Prerequisites
-    Docker: Ensure Docker and Docker Compose are installed on your system.
-    Environment configuration: Create a .env file in the project root with the necessary configuration.
-    ```bash
-    docker compose up
-    ```    
+  
  
 ### Development 
 For development in docker just go to the app folder and run
 ```bash
-docker run -it -u $(id -u ${USER}):$(id -g ${USER}) -p 8080:8080 -v  $(pwd):/app maven:3.9.9-eclipse-temurin-11 bash
+docker run -it -u $(id -u ${USER}):$(id -g ${USER}) -p 8080:8080 -v  $(pwd):/app maven:3.9.9-eclipse-temurin-21 bash
 ```
  
 ### Swagger API Documentation

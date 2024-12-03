@@ -14,7 +14,7 @@ import anagram.models.AnagramFindRequest
 import anagram.models.AnagramFindResponse
 
 import anagram.storage.StorageFactory
-import anagram.storage.GetKeysForValuesFilterCriteria
+import anagram.storage.GetFilterCriteria
 import anagram.storage.Storage
 
 @Service
@@ -38,11 +38,9 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
     override fun anagramsPost(anagramFindRequest: AnagramFindRequest): AnagramFindResponse {
 
         val aSorted = anagramFindRequest.text.sortAsc()
-        val filter = GetKeysForValuesFilterCriteria(  excludeKey = anagramFindRequest.text, targetValue= aSorted)
-        val foundList = storage.getKeysForValueWithFilter(filter)
- 
-        //val foundList = storage.getKeysForValue(aSorted)
-        return AnagramFindResponse( text = anagramFindRequest.text,  anagrams = foundList)
+        val filter = GetFilterCriteria( exclude = anagramFindRequest.text, target = aSorted)
+        val foundList = storage.getWithFilter(filter)
+        return AnagramFindResponse( text = anagramFindRequest.text, anagrams = foundList)
     }
 
 
@@ -70,11 +68,7 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
         }
 
         //strings are anagrams- store them
-        val keyValueMap = mapOf(
-            anagramProcessRequest.textA to aSorted,
-            anagramProcessRequest.textB to bSorted
-        )
-        storage.addMap(keyValueMap)
+        storage.addMany(aSorted, anagramProcessRequest.textA , anagramProcessRequest.textB)
         return AnagramProcessResponse( textA = anagramProcessRequest.textA,  textB = anagramProcessRequest.textB,
                                     result = true, message = MESSAGE_TEXTS_ARE_ANAGRAMS)
     }
