@@ -1,7 +1,6 @@
 
 # Anagram BE Application
 
- 
 ## About The Project
 This is a simple kotlin-spring application that verifies and retrieves temporary stored anagrams.
 The purpose of the application is to look into kotlin with springboot and experiment with different storage types.
@@ -10,21 +9,21 @@ The purpose of the application is to look into kotlin with springboot and experi
 
 ### Endpoints
  The following endpoints are available 
-  - **{url}/v1/anagrams/put**: Verifies if two texts are anagrams of each other.If true both texts are saved in memory for feuture request
+  - **{url}/v1/anagrams/put**: Verifies if two texts are anagrams of each other.If true both texts are saved in memory for feuture requests.
   - **{url}/v1/anagrams/post**: Searches for all previously stored anagrams of the given text.
 
 ### Storage Options
 The application supports two configurable non persistent storage options, providing flexibility based on your deployment environment and requirements:
 
-1. Built In ConcurrentHashMap (default)
+1. **Built In ConcurrentHashMap (default)**
    Used for lightweight deployments 
 
-  **Try ConcurrentHashMap with Docker Compose
+  **Try ConcurrentHashMap with Docker Compose**
     ```bash
      docker compose -f docker-compose-map.yaml up
     ```  
 
-2. Hazelcast 
+2. **Hazelcast** 
    An in memmory storage for scalability. 
    See [https://hazelcast.com] for details.
    Set the following environment variables in the .env file or your runtime configuration:
@@ -33,12 +32,11 @@ The application supports two configurable non persistent storage options, provid
     - HAZELCAST_NODE_IPS=<ip:<port>, <ip>:<port>
     - HAZELCAST_CLUSTER_NAME=<hazelcast-cluster-name>
 
+  **Try Hazelcast with Docker Compose**
 
-  **Try Hazelcast with Docker Compose
-
-    Prerequisites
-    Docker: Ensure Docker and Docker Compose are installed on your system.
-    Environment configuration: Create a .env file in the project root with the necessary configuration.
+    Prerequisites:
+    -Docker: Ensure Docker and Docker Compose are installed on your system.
+    -Environment configuration: Create a .env file in the project root with the necessary configuration.
     ```bash
      docker compose -f docker-compose-hazelcast.yaml up
     ```   
@@ -49,15 +47,15 @@ The application supports two configurable non persistent storage options, provid
     - STORAGE_TYPE=redis
     - REDIS_URL=<ip>:<port>
 
-  **Try Redis with Docker Compose
+  **Try Redis with Docker Compose**
 
-    Prerequisites
-    Docker: Ensure Docker and Docker Compose are installed on your system.
-    Environment configuration: Create a .env file in the project root with the necessary configuration.
+    Prerequisites:
+    - Docker: Ensure Docker and Docker Compose are installed on your system.
+    - Environment configuration: Create a .env file in the project root with the necessary configuration.
     ```bash
      docker compose -f docker-compose-redis.yaml up
     ```  
- 
+
 ### Configuration
 The application can be configured using environment variables. Key variables include:
 
@@ -67,9 +65,6 @@ The application can be configured using environment variables. Key variables inc
 | `HAZELCAST_NODE_IPS`      | list of nodes                 |`<ip1>:<port1>,<ip2>:<port2>`| `none`           |
 | `HAZELCAST_CLUSTER_NAME`  | Name of the DB cluster        |                             | `default-cluster`|
 | `REDIS_URL`               | redis url                     |      `<ip=>:<port>`         | `localhost:6379` |
-
-
-
 
 ### Deployment 
 
@@ -83,15 +78,14 @@ The application can be configured using environment variables. Key variables inc
     docker build -t app-prod .
     docker run -p 8080:8080 app-prod
     ```
-
-  
  
 ### Development 
+
 For development in docker just go to the app folder and run
 ```bash
 docker run -it -u $(id -u ${USER}):$(id -g ${USER}) -p 8080:8080 -v  $(pwd):/app maven:3.9.9-eclipse-temurin-21 bash
 ```
- 
+
 ### Swagger API Documentation
 
 The application includes a Swagger UI to provide an interactive interface for exploring and testing the available endpoints. 
@@ -114,7 +108,7 @@ This provides a user-friendly interface to view:
 Notes
 Swagger is automatically enabled when the application starts. No additional setup is required.
 
- 
+
 ## Whom should I contact
 Vera Voynovska
 
