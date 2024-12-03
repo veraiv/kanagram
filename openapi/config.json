@@ -1,0 +1,15 @@
+{
+  "additionalProperties": {
+    "gradleBuildFile": false,
+    "serviceInterface":true,
+    "basePackage":"anagram",
+    "packageName":"anagram",
+    "groupId":"app",
+    "artifactId":"anagram",
+    "artifactVersion":"1.0.0",
+    "serverPort":"8080",
+    "apiTests":false,
+    "modelTests":false,
+    "enablePostProcessFile":true
+  }
+}

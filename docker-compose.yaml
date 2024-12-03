@@ -1,0 +1,36 @@
+
+services:
+
+  hazelcast-node1:
+    hostname: hazelcast-node1  
+    image: hazelcast/hazelcast
+    ports:
+      - "5701:5701"
+    environment:
+      - HAZELCAST_CLUSTER_NAME=hazelcast-cluster
+      - HAZELCAST_TCP_IP_ENABLED=true
+      - HAZELCAST_TCP_IP_MEMBERS=hazelcast-node1, hazelcast-node2
+ 
+  hazelcast-node2:
+    hostname: hazelcast-node2
+    image: hazelcast/hazelcast
+    ports:
+      - "5702:5701"
+    environment:
+      - HAZELCAST_CLUSTER_NAME=hazelcast-cluster
+      - HAZELCAST_TCP_IP_ENABLED=true
+      - HAZELCAST_TCP_IP_MEMBERS=hazelcast-node1, hazelcast-node2
+
+  spring-service:
+    hostname: spring-service
+    depends_on:
+      - hazelcast-node1
+      - hazelcast-node2
+    build: .
+    ports:
+      - "8080:8080"
+    environment:   
+      - STORAGE_TYPE=hazelcast
+      - HAZELCAST_NODE_IPS=hazelcast-node1:5701,hazelcast-node2:5702
+      - HAZELCAST_CLUSTER_NAME=hazelcast-cluster
+      - HAZELCAST_INSTANCE:anagram
