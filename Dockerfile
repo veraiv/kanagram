@@ -9,14 +9,14 @@ WORKDIR /app
 
 RUN mvn clean package
 
-ENTRYPOINT [ "java" , "-jar", "/app/app/target/openapi-spring-1.0.0.jar"]
+ENTRYPOINT [ "java" , "-jar", "/app/app/target/anagram-1.0.0.jar"]
 
 # ===========================================
 FROM eclipse-temurin:21-alpine 
 
 WORKDIR /app
 
-COPY --from=builder /app/target/openapi-spring-1.0.0.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
 

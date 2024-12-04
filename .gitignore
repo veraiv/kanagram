@@ -1,2 +1,5 @@
 target
 app/.openapi-generator
+app/src/main/kotlin/anagram/models
+app/src/main/kotlin/anagram/apis
+ 

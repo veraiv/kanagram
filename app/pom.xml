@@ -1,16 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openapitools</groupId>
-    <artifactId>openapi-spring</artifactId>
+    <groupId>anagram</groupId>
+    <artifactId>anagram</artifactId>
     <packaging>jar</packaging>
-    <name>openapi-spring</name>
+    <name>anagram</name>
     <version>1.0.0</version>
     <properties>
         <springdoc-openapi.version>1.6.8</springdoc-openapi.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <javax-annotation.version>1.3.2</javax-annotation.version>
         <kotlin-test-junit5.version>1.6.21</kotlin-test-junit5.version>
-
         <kotlin.version>2.0.21</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -23,6 +22,65 @@
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
+           <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/src/target</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>                    
+                        <fileset>
+                            <directory>${project.basedir}/src/main/kotlin/anagram/apis</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>${project.basedir}/src/main/kotlin/anagram/models</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>                      
+                    </filesets>
+                </configuration>
+         </plugin>        
+         <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.10.0</version>  
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>  
+                            <generatorName>kotlin-spring</generatorName>  
+                            <output>${project.basedir}</output>         
+                            <configOptions>
+                                <gradleBuildFile>false</gradleBuildFile>
+                                <serviceInterface>true</serviceInterface>
+                                <basePackage>${project.name}</basePackage>
+                                <packageName>${project.name}</packageName>
+                                <groupId>app</groupId>
+                                <artifactId>anagram</artifactId>
+                                <artifactVersion>${project.version}</artifactVersion>
+                                <apiTests>false</apiTests>
+                                <modelTests>false</modelTests>
+                                <enablePostProcessFile>true</enablePostProcessFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

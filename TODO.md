@@ -1,12 +1,13 @@
 ### Todo
 - [] SQL Query with from and limity and Pagination, for large seraches
-- [] Tests
-- [] targets build
-
+- [] Performance tests 
+ 
 ### In Progress
- - [x] Redis
   
 ### Done
+- [x] Redis
+- [x] Redis 
+- [x] Redis
 - [x] Haselcast 
 - [x] Simple in memory concurent cache
 - [x] Logging
