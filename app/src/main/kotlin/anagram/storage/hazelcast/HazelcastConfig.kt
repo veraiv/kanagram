@@ -21,7 +21,6 @@ class HazelcastConfig (
  
     fun hazelcastInstance(): HazelcastStorage {
 
-
         val nodes = nodeIps.split(",").map { it.trim() }
 
         val config = Config()
@@ -37,7 +36,6 @@ class HazelcastConfig (
         val hazelcastInstance = Hazelcast.newHazelcastInstance(config)
 
         Runtime.getRuntime().addShutdownHook(Thread {
-            hazelcastInstance.shutdown()
             try {
                 hazelcastInstance.shutdown()
             } catch (e: Exception) {
@@ -45,7 +43,6 @@ class HazelcastConfig (
             }
         })
         return HazelcastStorage(hazelcastInstance,maxRetry)
- 
     }    
  
 }

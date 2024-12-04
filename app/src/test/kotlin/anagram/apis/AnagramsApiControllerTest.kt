@@ -52,9 +52,7 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.textA").value("text"))
             .andExpect(jsonPath("$.textB").value("text"))
             .andExpect(jsonPath("$.result").value(false)); 
-            
     }
-
 
     @Test
     fun testProcessDifferentLengthTexts() {
@@ -68,7 +66,6 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.textA").value("text"))
             .andExpect(jsonPath("$.textB").value("te"))
             .andExpect(jsonPath("$.result").value(false)); 
-     
     }
 
     @Test
@@ -83,7 +80,6 @@ class AnagramsApiControllerTest {
         .andExpect(jsonPath("$.textA").value("text"))
         .andExpect(jsonPath("$.textB").value("texx"))
         .andExpect(jsonPath("$.result").value(false)); 
-
     }
 
     @Test
@@ -97,8 +93,7 @@ class AnagramsApiControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON ))
             .andExpect(jsonPath("$.textA").value("text"))
             .andExpect(jsonPath("$.textB").value("txet"))
-            .andExpect(jsonPath("$.result").value(true)); 
-            
+            .andExpect(jsonPath("$.result").value(true));      
     }
 
     @Test
@@ -112,7 +107,6 @@ class AnagramsApiControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON ))
             .andExpect(jsonPath("$.text").value("text"))
             .andExpect(jsonPath("$.anagrams").isEmpty);
-        
     }
 
     @Test

@@ -1,12 +1,10 @@
 ### Todo
-- [] SQL Query with from and limity and Pagination, for large seraches
+- [] SQL Query with from and limit and Pagination, for large seraches
 - [] Performance tests 
  
 ### In Progress
   
 ### Done
-- [x] Redis
-- [x] Redis 
 - [x] Redis
 - [x] Haselcast 
 - [x] Simple in memory concurent cache

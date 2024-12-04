@@ -29,11 +29,9 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
         private const val MESSAGE_TEXTS_ARE_ANAGRAMS = "The texts are anagrams."
     }
  
-    /**
-     * Define Sort string to be used to identify anagrams
-     */
+    
+    // Sort string to be used to identify anagrams
     private fun String.sortAsc() = toCharArray().sorted().joinToString("")
-
  
     override fun anagramsPost(anagramFindRequest: AnagramFindRequest): AnagramFindResponse {
 
