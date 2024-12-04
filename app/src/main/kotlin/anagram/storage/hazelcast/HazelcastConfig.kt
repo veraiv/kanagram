@@ -19,8 +19,8 @@ class HazelcastConfig (
     ){
     private val log = LoggerFactory.getLogger(HazelcastConfig::class.java)
  
- 
     fun hazelcastInstance(): HazelcastStorage {
+
 
         val nodes = nodeIps.split(",").map { it.trim() }
 
@@ -33,7 +33,7 @@ class HazelcastConfig (
         networkConfig.join.tcpIpConfig.members = nodes  
  
         log.info("Creating Hazelcast Storage")
-
+ 
         val hazelcastInstance = Hazelcast.newHazelcastInstance(config)
 
         Runtime.getRuntime().addShutdownHook(Thread {
@@ -44,7 +44,7 @@ class HazelcastConfig (
                 log.error("Error shutting down Hazelcast instance:", e)
             }
         })
-        return HazelcastStorage(Hazelcast.newHazelcastInstance(config),maxRetry)
+        return HazelcastStorage(hazelcastInstance,maxRetry)
  
     }    
  

@@ -28,3 +28,5 @@ src/main/kotlin/anagram/Application.kt
 src/main/kotlin/anagram/services/*
 src/main/kotlin/anagram/storage/*
 src/test/kotlin/anagram/apis/*Test.kt
+src/main/resources/openapi/*
+src/main/resources/application.yaml

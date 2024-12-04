@@ -1,12 +1,14 @@
 ### Todo
 - [] SQL Query with from and limity and Pagination, for large seraches
 - [] Tests
-- [] targets build
+ 
 
 ### In Progress
- - [x] Redis
+- [] mvn generate-sources
+- [] environment from application.xml 
   
 ### Done
+- [x] Redis
 - [x] Haselcast 
 - [x] Simple in memory concurent cache
 - [x] Logging

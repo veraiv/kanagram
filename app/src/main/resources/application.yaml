@@ -5,6 +5,10 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-
+      
 server:
-  port: 8080
+  port: ${LISTEN_PORT:8080}
+  
+redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT::6379}
