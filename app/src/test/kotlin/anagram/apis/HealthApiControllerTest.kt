@@ -14,8 +14,7 @@ import anagram.apis.HealthApiController
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ComponentScan(basePackages = ["anagram", "anagram.service", "anagram.api"]) // Ensure both packages are scanned
-@ActiveProfiles("test")  // Optional: Specify the profile to use
+@ComponentScan(basePackages = ["anagram", "anagram.service", "anagram.api"])   
 class HealthApiControllerTest {
 
     @Autowired
