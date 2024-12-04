@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.core.env.Environment
 import org.springframework.beans.factory.annotation.Value 
-import anagram.storage.hazelcast.HazelcastStorage
 import anagram.storage.hazelcast.HazelcastConfig
 import anagram.storage.map.LocalInMemoryStorage
-import anagram.storage.redis.RedisStorage
+import anagram.storage.redis.RedisConfig
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -26,6 +25,9 @@ class StorageFactory {
     @Autowired
     private lateinit var hazelcastConfig: HazelcastConfig    
 
+    @Autowired
+    private lateinit var redisConfig: RedisConfig   
+
     @Value("\${STORAGE_TYPE:map}")
     private lateinit var storageType: String
 
@@ -33,13 +35,14 @@ class StorageFactory {
     fun createStorage(): Storage {
 
         val type = storageType.lowercase()
-        //if "haselcast" create hazelcast db, reate simple map otherwise 
+
         log.info("Creating Storage  {} ", storageType.lowercase())
+
         if(type == "hazelcast") {
             return hazelcastConfig.hazelcastInstance()           
         }
         if(type == "redis") {
-            return RedisStorage()           
+            return redisConfig.redisInstance()           
         }
         return LocalInMemoryStorage()  
     }

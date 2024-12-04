@@ -10,14 +10,14 @@ import anagram.storage.Storage
 import anagram.storage.GetFilterCriteria
 import java.lang.Exception
  
-class RedisStorage( @Value("\${REDIS_URL:localhost:6379}") private val redisUrl: String = "localhost:6379"): Storage  {
+class RedisStorage(  private val host: String = "localhost", private val port: Int= 6379): Storage  {
 
     private val log = LoggerFactory.getLogger(RedisStorage::class.java)
  
     private val jedis: Jedis
 
     init {       
-        val (host, port) = parseRedisUrl(redisUrl)
+  
         jedis = Jedis(host, port)
 
         Runtime.getRuntime().addShutdownHook(Thread {
