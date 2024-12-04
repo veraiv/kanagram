@@ -10,6 +10,7 @@ paths:
     description: "Endpoint for health Return 200 if service is healty, an error from\
       \ the 5XX range otherwise."
     get:
+      operationId: health
       responses:
         "200":
           description: Service is Up and running
@@ -19,6 +20,7 @@ paths:
     description: "Endpoint for info Returns basic application information :see title,\
       \ version and description"
     get:
+      operationId: infoGet
       responses:
         "200":
           content:
@@ -31,6 +33,7 @@ paths:
     post:
       description: This endpoint takes a strings and returns all anagrams that were
         previously reuested.
+      operationId: anagramsPost
       requestBody:
         content:
           application/json:
@@ -51,6 +54,7 @@ paths:
     put:
       description: This endpoint takes two strings and returns true if they are anagrams.
         The strings are preserved within a single run.
+      operationId: anagramsPut
       requestBody:
         content:
           application/json:

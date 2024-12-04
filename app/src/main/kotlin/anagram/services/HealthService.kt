@@ -14,7 +14,7 @@ class HealthService : HealthApiService {
 @Autowired
     lateinit var openAPI: OpenAPI  // Autowiring the OpenAPI bean
 
-    override fun healthGet(): Unit {
+    override fun health(): Unit {
             //Do Nothing for now
     }
 }

@@ -18,8 +18,6 @@ class HazelcastConfig (
     @Value("\${haselcast.instance:hazelcast-instance}") private val instanceName: String
     ){
     private val log = LoggerFactory.getLogger(HazelcastConfig::class.java)
-
-
  
     fun hazelcastInstance(): HazelcastStorage {
 

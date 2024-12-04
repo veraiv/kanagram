@@ -34,7 +34,7 @@ class HealthApiController(@Autowired(required = true) val service: HealthApiServ
 
     @Operation(
         summary = "",
-        operationId = "healthGet",
+        operationId = "health",
         description = """""",
         responses = [
             ApiResponse(responseCode = "200", description = "Service is Up and running"),
@@ -44,7 +44,7 @@ class HealthApiController(@Autowired(required = true) val service: HealthApiServ
         method = [RequestMethod.GET],
         value = ["/health"]
     )
-    fun healthGet(): ResponseEntity<Unit> {
-        return ResponseEntity(service.healthGet(), HttpStatus.valueOf(200))
+    fun health(): ResponseEntity<Unit> {
+        return ResponseEntity(service.health(), HttpStatus.valueOf(200))
     }
 }

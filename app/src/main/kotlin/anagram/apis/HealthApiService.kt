@@ -8,7 +8,7 @@ interface HealthApiService {
      *
      * @return Service is Up and running (status code 200)
      *         or Unexpected error (status code 5XX)
-     * @see HealthApi#healthGet
+     * @see HealthApi#health
      */
-    fun healthGet(): Unit
+    fun health(): Unit
 }
