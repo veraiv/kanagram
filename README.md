@@ -38,6 +38,7 @@ The application supports two configurable non persistent storage options, provid
     ```   
 
 3. Redis
+   See [https://redis.io] for details.
    Set the following environment variables in the .env file or your runtime configuration:
 
     - STORAGE_TYPE=redis
