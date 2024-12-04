@@ -12,4 +12,4 @@
 - [x] Test framework as well as some initial tests
 - [x] Documentation First draft 
 - [x] Services
-- [x] Initialize project with openapi genarator
+- [x] Initialize project with openapi generator

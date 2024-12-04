@@ -38,10 +38,10 @@ class StorageFactory {
 
         log.info("Creating Storage  {} ", storageType.lowercase())
 
-        if(type == "hazelcast") {
+        if (type == "hazelcast") {
             return hazelcastConfig.hazelcastInstance()           
         }
-        if(type == "redis") {
+        if (type == "redis") {
             return redisConfig.redisInstance()           
         }
         return LocalInMemoryStorage()  
