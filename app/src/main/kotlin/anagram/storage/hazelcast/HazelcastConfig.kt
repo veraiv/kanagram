@@ -12,12 +12,14 @@ import org.slf4j.LoggerFactory
 
 @Configuration
 class HazelcastConfig (
-    @Value("\${HAZELCAST_MAX_INIT_RETRY:10}") private val maxRetry: Int,
-    @Value("\${HAZELCAST_CLUSTER_NAME:default-cluster}") private val clusterName: String,
-    @Value("\${HAZELCAST_NODE_IPS:127.0.0.1}") private val nodeIps: String,
-    @Value("\${HAZELCAST_INSTANCE:hazelcast-instance}") private val instanceName: String
+    @Value("\${haselcast.max.int.retry:10}") private val maxRetry: Int,
+    @Value("\${haselcast.cluster.name:default-cluster}") private val clusterName: String,
+    @Value("\${haselcast.node.ips:127.0.0.1}") private val nodeIps: String,
+    @Value("\${haselcast.instance:hazelcast-instance}") private val instanceName: String
     ){
     private val log = LoggerFactory.getLogger(HazelcastConfig::class.java)
+
+
  
     fun hazelcastInstance(): HazelcastStorage {
 

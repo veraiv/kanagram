@@ -14,6 +14,7 @@ redis:
   port: ${REDIS_PORT:6379}
 
 haselcast:
+  max-int-retry: ${HAZELCAST_MAX_INIT_RETRY:10}
   node:
     ips: ${HAZELCAST_NODE_IPS:hazelcast-node1:5701,hazelcast-node2:5702}
   cluster:
