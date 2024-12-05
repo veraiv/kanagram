@@ -2,11 +2,8 @@ package anagram.storage.hazelcast
 
 import com.hazelcast.config.Config
 import com.hazelcast.config.NetworkConfig
-import com.hazelcast.core.HazelcastInstance
 import com.hazelcast.core.Hazelcast
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.env.Environment
 import org.springframework.beans.factory.annotation.Value
 import org.slf4j.LoggerFactory
 
@@ -21,9 +18,7 @@ class HazelcastConfig (
  
     fun hazelcastInstance(): HazelcastStorage {
 
-
         val nodes = nodeIps.split(",").map { it.trim() }
-
         val config = Config()
         config.instanceName = instanceName
         config.clusterName = clusterName
@@ -37,15 +32,13 @@ class HazelcastConfig (
         val hazelcastInstance = Hazelcast.newHazelcastInstance(config)
 
         Runtime.getRuntime().addShutdownHook(Thread {
-            hazelcastInstance.shutdown()
             try {
                 hazelcastInstance.shutdown()
             } catch (e: Exception) {
                 log.error("Error shutting down Hazelcast instance:", e)
             }
         })
-        return HazelcastStorage(hazelcastInstance,maxRetry)
- 
+        return HazelcastStorage(hazelcastInstance, maxRetry)
     }    
  
 }

@@ -24,7 +24,7 @@ The application supports two configurable non persistent storage options, provid
     ```  
 
 2. **Hazelcast** 
-   An in memmory storage for scalability. 
+   An in memory storage for scalability. 
    See [https://hazelcast.com] for details.
    Set the following environment variables in the .env file or your runtime configuration:
 

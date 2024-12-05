@@ -14,19 +14,16 @@ class  LocalInMemoryStorage: Storage {
 
     private val keyValueMap = ConcurrentHashMap<String, String>()
 
-    override fun addMany(key: String,  vararg values: String){
+    override fun addMany(key: String,  vararg values: String){        
         for (next in values){
             keyValueMap.putIfAbsent(next, key)
         }
      }
  
     override fun getWithFilter(criteria: GetFilterCriteria): List<String>  {
-        log.info("LocalInMemoryStorage getWithFilter {}}", criteria) 
         val filteredMap = keyValueMap.filter { (key, addValue) ->
             key != criteria.exclude && addValue == criteria.target
         }
         return filteredMap.keys.toList()
     }
-
-
 }

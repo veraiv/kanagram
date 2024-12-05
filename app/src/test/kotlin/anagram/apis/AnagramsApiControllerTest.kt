@@ -33,7 +33,7 @@ class AnagramsApiControllerTest {
     @Test
     fun testProcessMissingParameter() {
 
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\" }")
             .accept(MediaType.APPLICATION_JSON))
@@ -43,7 +43,7 @@ class AnagramsApiControllerTest {
     @Test
     fun testProcessEqualTexts() {
  
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\", \"textB\": \"text\" }") 
             .accept(MediaType.APPLICATION_JSON))
@@ -52,14 +52,12 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.textA").value("text"))
             .andExpect(jsonPath("$.textB").value("text"))
             .andExpect(jsonPath("$.result").value(false)); 
-            
     }
-
 
     @Test
     fun testProcessDifferentLengthTexts() {
  
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\", \"textB\": \"te\" }") 
             .accept(MediaType.APPLICATION_JSON))
@@ -68,13 +66,12 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.textA").value("text"))
             .andExpect(jsonPath("$.textB").value("te"))
             .andExpect(jsonPath("$.result").value(false)); 
-     
     }
 
     @Test
     fun testProcessSameLengthTextsNotAnagrams() {
  
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{ \"textA\": \"text\", \"textB\": \"texx\" }") 
         .accept(MediaType.APPLICATION_JSON))
@@ -83,13 +80,12 @@ class AnagramsApiControllerTest {
         .andExpect(jsonPath("$.textA").value("text"))
         .andExpect(jsonPath("$.textB").value("texx"))
         .andExpect(jsonPath("$.result").value(false)); 
-
     }
 
     @Test
     fun testProcessSameAnagrams() {
  
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\", \"textB\": \"txet\" }") 
             .accept(MediaType.APPLICATION_JSON))
@@ -97,14 +93,13 @@ class AnagramsApiControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON ))
             .andExpect(jsonPath("$.textA").value("text"))
             .andExpect(jsonPath("$.textB").value("txet"))
-            .andExpect(jsonPath("$.result").value(true)); 
-            
+            .andExpect(jsonPath("$.result").value(true));      
     }
 
     @Test
     fun testGetEmptyAnagrams() {
  
-        mockMvc.perform(post("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams/find")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"text\": \"text\"}") 
             .accept(MediaType.APPLICATION_JSON))
@@ -112,12 +107,11 @@ class AnagramsApiControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON ))
             .andExpect(jsonPath("$.text").value("text"))
             .andExpect(jsonPath("$.anagrams").isEmpty);
-        
     }
 
     @Test
     fun testGetAnagrams() {
-        val response = mockMvc.perform(put("/v1/anagrams")
+        val response = mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\", \"textB\": \"txet\" }") 
             .accept(MediaType.APPLICATION_JSON))
@@ -128,7 +122,7 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.result").value(true))
             .andReturn();    
         
-        mockMvc.perform(post("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams/find")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"text\": \"text\"}") 
             .accept(MediaType.APPLICATION_JSON))
@@ -140,7 +134,7 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.anagrams").value(contains("txet")))
             .andExpect(jsonPath("$.anagrams", hasSize<Any>(1)));
 
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\", \"textB\": \"txte\" }") 
             .accept(MediaType.APPLICATION_JSON))
@@ -150,7 +144,7 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.textB").value("txte"))
             .andExpect(jsonPath("$.result").value(true));        
  
-        mockMvc.perform(post("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams/find")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"text\": \"text\"}") 
             .accept(MediaType.APPLICATION_JSON))
@@ -162,7 +156,7 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.anagrams").value(containsInAnyOrder("txet", "txte")))
             .andExpect(jsonPath("$.anagrams", hasSize<Any>(2)));
  
-        mockMvc.perform(put("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"textA\": \"text\", \"textB\": \"ttxe\" }") 
             .accept(MediaType.APPLICATION_JSON))
@@ -172,7 +166,7 @@ class AnagramsApiControllerTest {
             .andExpect(jsonPath("$.textB").value("ttxe"))
             .andExpect(jsonPath("$.result").value(true));        
  
-        mockMvc.perform(post("/v1/anagrams")
+        mockMvc.perform(post("/v1/anagrams/find")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"text\": \"text\"}") 
             .accept(MediaType.APPLICATION_JSON))

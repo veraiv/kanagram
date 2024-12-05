@@ -34,6 +34,7 @@ class RedisStorage(  private val host: String = "localhost", private val port: I
     }
  
     override fun getWithFilter(criteria: GetFilterCriteria): List<String>  {
+
         val setMembers: Set<String> = jedis.smembers(criteria.target) ?: emptySet()
         val modifiedSet = setMembers.toMutableSet()   
         modifiedSet.remove(criteria.exclude)  
@@ -41,6 +42,7 @@ class RedisStorage(  private val host: String = "localhost", private val port: I
     }
  
     private fun parseRedisUrl(url: String): Pair<String, Int> {
+        
         val parts = url.split(":")
         require(parts.size == 2) { "Invalid Redis URL format. Expected 'host:port'." }
         val host = parts[0]

@@ -22,8 +22,7 @@ class HealthApiControllerTest {
 
     @Test
     fun testGetStatus() {
-        // Act and Assert
-        mockMvc.perform(get("/v1/health"))  // Adjust the endpoint according to your controller
+        mockMvc.perform(get("/v1/health"))
             .andExpect(status().isOk)
             
     }

@@ -33,29 +33,10 @@ paths:
               schema: {}
         '5XX':
           description: Unexpected error
-  /anagrams:
+
+  /anagrams:       
     post:
-      operationId: anagramsPost 
-      summary: Get all in memmory stored anagrams for a provided text. POST request for lenght and security resons.
-      description: This endpoint takes a strings and returns all anagrams that were previously reuested. 
-      requestBody:
-        content:
-          application/json:           
-            schema:
-              $ref: '#/components/schemas/anagramFindRequest'
-        required: true      
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/anagramFindResponse'
-          description: Successful
-        '400':
-          description: Bad request if one of the required fields is missing
-                 
-    put:
-      operationId: anagramsPut
+      operationId: anagramsPost
       summary: This endpoint takes two strings and checks if theyare anagrams of each other
       description: This endpoint takes two strings and returns true if they are anagrams. The strings are preserved within a single run. 
       requestBody:
@@ -74,7 +55,26 @@ paths:
           description: Successful
         '400':
           description: Bad request if one of the required fields is missing
-                 
+  /anagrams/find:
+    post:
+      operationId: anagramsFind
+      summary: Get all in memmory stored anagrams for a provided text. POST request for lenght and security resons.
+      description: This endpoint takes a strings and returns all anagrams that were previously reuested. 
+      requestBody:
+        content:
+          application/json:           
+            schema:
+              $ref: '#/components/schemas/anagramFindRequest'
+        required: true      
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anagramFindResponse'
+          description: Successful
+        '400':
+          description: Bad request if one of the required fields is missing               
 components:
   schemas:
     anagramFindRequest:

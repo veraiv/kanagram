@@ -17,8 +17,8 @@ class RedisConfig ( ) {
     private  val redisPort: Int = 6379
 
     fun redisInstance(): RedisStorage {
+
         log.info("Creating Redis Storage")
         return RedisStorage(redisHost, redisPort)
     }    
- 
 }

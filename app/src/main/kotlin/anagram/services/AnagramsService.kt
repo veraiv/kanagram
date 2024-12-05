@@ -1,11 +1,7 @@
 package anagram.services
 
-import io.swagger.v3.oas.models.OpenAPI
+
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import anagram.apis.AnagramsApiService
 import anagram.models.AnagramProcessRequest
@@ -23,19 +19,17 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
     lateinit var storage: Storage  // Autowiring the Storage bean
 
     companion object {
-        private const val MESSAGE_TEXTS_LENGTH_DIFFER = "Texts are not anagrams.Length differ!"
-        private const val MESSAGE_TEXTS_ARE_IDENTICAL = "The texts are not anagrams.They are identical!"
+        private const val MESSAGE_TEXTS_LENGTH_DIFFER = "Texts are not anagrams. Length differ!"
+        private const val MESSAGE_TEXTS_ARE_IDENTICAL = "The texts are not anagrams. They are identical!"
         private const val MESSAGE_TEXTS_ARE_NOT_ANAGRAMS = "The texts are not anagrams."
         private const val MESSAGE_TEXTS_ARE_ANAGRAMS = "The texts are anagrams."
     }
  
-    /**
-     * Define Sort string to be used to identify anagrams
-     */
+    
+    // Sort string to be used to identify anagrams
     private fun String.sortAsc() = toCharArray().sorted().joinToString("")
-
  
-    override fun anagramsPost(anagramFindRequest: AnagramFindRequest): AnagramFindResponse {
+    override fun anagramsFind(anagramFindRequest: AnagramFindRequest): AnagramFindResponse {
 
         val aSorted = anagramFindRequest.text.sortAsc()
         val filter = GetFilterCriteria( exclude = anagramFindRequest.text, target = aSorted)
@@ -44,17 +38,17 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
     }
 
 
-    override fun anagramsPut(anagramProcessRequest: AnagramProcessRequest): AnagramProcessResponse {
+    override fun anagramsPost(anagramProcessRequest: AnagramProcessRequest): AnagramProcessResponse {
   
         //verify length first to avoid unnecessary operations
-        if  ( anagramProcessRequest.textA.length !=  anagramProcessRequest.textB.length ){
-            return AnagramProcessResponse( anagramProcessRequest.textA, anagramProcessRequest.textB, 
-                                        result= false, MESSAGE_TEXTS_LENGTH_DIFFER)
+        if  (anagramProcessRequest.textA.length !=  anagramProcessRequest.textB.length){
+            return AnagramProcessResponse(anagramProcessRequest.textA, anagramProcessRequest.textB, 
+                                        result= false, message = MESSAGE_TEXTS_LENGTH_DIFFER)
         }
 
         //verify if both strings are equal
-        if ( anagramProcessRequest.textA == anagramProcessRequest.textB  ){
-            return AnagramProcessResponse( textA = anagramProcessRequest.textA, textB = anagramProcessRequest.textB, 
+        if (anagramProcessRequest.textA == anagramProcessRequest.textB){
+            return AnagramProcessResponse(textA = anagramProcessRequest.textA, textB = anagramProcessRequest.textB, 
                                         result= false, message = MESSAGE_TEXTS_ARE_IDENTICAL)
         }
 
@@ -62,14 +56,14 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
         val aSorted = anagramProcessRequest.textA.sortAsc()
         val bSorted = anagramProcessRequest.textB.sortAsc()
  
-        if ( aSorted != bSorted  ){
-            return AnagramProcessResponse( textA = anagramProcessRequest.textA, textB = anagramProcessRequest.textB, 
+        if (aSorted != bSorted){
+            return AnagramProcessResponse(textA = anagramProcessRequest.textA, textB = anagramProcessRequest.textB, 
                                         result = false, message = MESSAGE_TEXTS_ARE_NOT_ANAGRAMS)
         }
 
         //strings are anagrams- store them
         storage.addMany(aSorted, anagramProcessRequest.textA , anagramProcessRequest.textB)
-        return AnagramProcessResponse( textA = anagramProcessRequest.textA,  textB = anagramProcessRequest.textB,
+        return AnagramProcessResponse(textA = anagramProcessRequest.textA,  textB = anagramProcessRequest.textB,
                                     result = true, message = MESSAGE_TEXTS_ARE_ANAGRAMS)
     }
 }

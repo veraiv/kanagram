@@ -15,13 +15,11 @@ import java.util.concurrent.TimeUnit
 import anagram.storage.Storage
 import anagram.storage.GetFilterCriteria
 
-
 class HazelcastStorage(private val hazelcastInstance: HazelcastInstance,  private val maxRetries: Int = 10): Storage {
 
       private val log = LoggerFactory.getLogger(HazelcastStorage::class.java)
 
       private val keyValueMap = hazelcastInstance.getMap<String, String>("distributedmap")
- 
  
       init {
          log.info("HazelcastStorage initialize")
@@ -36,9 +34,7 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance,  privat
                   'valueFormat' = 'varchar'
                )
          """)
- 
       }
-
 
       override fun addMany(key: String,  vararg values: String){
          for (next in values){
@@ -47,7 +43,6 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance,  privat
       }
   
       override fun getWithFilter(criteria: GetFilterCriteria): List<String>  {
-         log.info("LocalInMemoryStorage getWithFilter {}}", criteria) 
          val list = mutableListOf<String>()
          val sqlQuery = "SELECT __key, this FROM distributedmap WHERE this = ?"
          hazelcastInstance.sql.execute(sqlQuery, criteria.target ).use { result ->
@@ -65,11 +60,9 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance,  privat
          return list
       }
  
-
       private fun waitForHazelcast( ) {
          val cluster = hazelcastInstance.cluster
  
-       
          var retries = 0
          while (retries < maxRetries) {
             if (cluster.members.isNotEmpty()) { 
@@ -80,8 +73,7 @@ class HazelcastStorage(private val hazelcastInstance: HazelcastInstance,  privat
             println("Waiting for Hazelcast to be ready...")
             Thread.sleep(1000)
         }
-    
-
-         throw IllegalStateException("Hazelcast instance did not become ready within the timeout period.")
+ 
+        throw IllegalStateException("Hazelcast instance did not become ready within the timeout period.")
   }
 }
