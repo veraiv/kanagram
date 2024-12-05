@@ -1,7 +1,8 @@
 ### Todo
-- [] SQL Query with from and limit and Pagination, for large seraches
+- [] SQL Query with from and limit and Pagination for large seraches
 - [] Performance tests 
- 
+- [] Latest JVM
+
 ### In Progress
   
 ### Done

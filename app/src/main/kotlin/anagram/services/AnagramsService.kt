@@ -29,7 +29,7 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
     // Sort string to be used to identify anagrams
     private fun String.sortAsc() = toCharArray().sorted().joinToString("")
  
-    override fun anagramsPost(anagramFindRequest: AnagramFindRequest): AnagramFindResponse {
+    override fun anagramsFind(anagramFindRequest: AnagramFindRequest): AnagramFindResponse {
 
         val aSorted = anagramFindRequest.text.sortAsc()
         val filter = GetFilterCriteria( exclude = anagramFindRequest.text, target = aSorted)
@@ -38,7 +38,7 @@ class AnagramsService(@Autowired private val storageFactory: StorageFactory) : A
     }
 
 
-    override fun anagramsPut(anagramProcessRequest: AnagramProcessRequest): AnagramProcessResponse {
+    override fun anagramsPost(anagramProcessRequest: AnagramProcessRequest): AnagramProcessResponse {
   
         //verify length first to avoid unnecessary operations
         if  (anagramProcessRequest.textA.length !=  anagramProcessRequest.textB.length){
