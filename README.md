@@ -13,7 +13,7 @@ The purpose of the application is to look into kotlin with springboot and experi
   - **{url}/v1/anagrams/post**: Searches for all previously stored anagrams of the given text.
 
 ### Storage Options
-The application supports two configurable non persistent storage options, providing flexibility based on your deployment environment and requirements:
+The application supports different configurable non persistent storage options, providing flexibility based on your deployment environment and requirements:
 
 1. **Built In ConcurrentHashMap (default)**
    Used for lightweight deployments 
@@ -29,8 +29,8 @@ The application supports two configurable non persistent storage options, provid
    Set the following environment variables in the .env file or your runtime configuration:
 
     - STORAGE_TYPE=hazelcast
-    - HAZELCAST_NODE_IPS=<ip:<port>, <ip>:<port>
-    - HAZELCAST_CLUSTER_NAME=<hazelcast-cluster-name>
+    - HAZELCAST_NODE_IPS=ip:port,ip:port
+    - HAZELCAST_CLUSTER_NAME=hazelcast-cluster-name
 
   **Try Hazelcast with Docker Compose**
     ```bash
@@ -42,7 +42,8 @@ The application supports two configurable non persistent storage options, provid
    Set the following environment variables in the .env file or your runtime configuration:
 
     - STORAGE_TYPE=redis
-    - REDIS_URL=<ip>:<port>
+    - REDIS_HOST=ip
+    - REDIS_PORT:port
 
   **Try Redis with Docker Compose**
     ```bash
@@ -57,7 +58,8 @@ The application can be configured using environment variables. Key variables inc
 | `STORAGE_TYPE`            | Database connection string    |`map`, `haselcast`, `map`    | `map`            |
 | `HAZELCAST_NODE_IPS`      | list of nodes                 |`<ip1>:<port1>,<ip2>:<port2>`| `none`           |
 | `HAZELCAST_CLUSTER_NAME`  | Name of the DB cluster        |                             | `default-cluster`|
-| `REDIS_URL`               | redis url                     |      `<ip=>:<port>`         | `localhost:6379` |
+| `REDIS_HOST`              | redis host                    |      `<url>`                |  `localhost`     |
+| `REDIS_POTR`              | redis port                    |      `<por7>`               |   6379           |
 
 ### Deployment 
 
